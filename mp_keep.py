@@ -1,0 +1,13 @@
+import frida, time
+dev = frida.get_usb_device()
+scripts = open('mp_mem2.js', encoding='utf-8').read() + "\n" + open('antitamp3.js', encoding='utf-8').read() + "\n" + open('hookdec2.js', encoding='utf-8').read() + "\n" + open('bypass2.js', encoding='utf-8').read()
+out = open('mpk.log','a')
+pid = dev.spawn(['com.blackhole.hd1763494114'])
+print("spawned", pid, flush=True)
+s = dev.attach(pid)
+sc = s.create_script(scripts)
+sc.on('message', lambda m,d: (out.write(str(m)+chr(10)), out.flush()))
+sc.load()
+dev.resume(pid)
+print("resumed KEEP ATTACHED", flush=True)
+time.sleep(600)
