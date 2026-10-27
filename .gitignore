@@ -1,0 +1,10 @@
+*.log
+*.keystore
+apk-extracted/
+jadx-out/
+jadx-real/
+dec-dex/
+__pycache/
+*.apk
+!patched/*.apk
+survpid

@@ -1,0 +1,13 @@
+import frida, time
+dev = frida.get_usb_device()
+scripts = open('unlockart.js').read() + "\n" + open('antitamp3.js').read() + "\n" + open('hookdec2.js').read() + "\n" + open('bypass2.js').read()
+out = open('ka.log','a')
+pid = dev.spawn(['com.blackhole.hd1763494114'])
+print("spawned", pid, flush=True)
+s = dev.attach(pid)
+sc = s.create_script(scripts)
+sc.on('message', lambda m,d: (out.write(str(m)+chr(10)), out.flush()))
+sc.load()
+dev.resume(pid)
+print("resumed", flush=True)
+time.sleep(600)
